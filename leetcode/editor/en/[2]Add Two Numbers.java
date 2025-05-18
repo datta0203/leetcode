@@ -42,19 +42,55 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
+
 /**
  * Definition for singly-linked list.
  * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * int val;
+ * ListNode next;
+ * ListNode() {}
+ * ListNode(int val) { this.val = val; }
+ * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        return new ListNode();
+        ListNode l3 = null;
+        ListNode current = null;
+        String l1AsString = "";
+        String l2AsString = "";
+        String result = "";
+        int l = 0;
+        int carry = 0;
+        while (l1 != null) {
+            l1AsString = l1AsString + String.valueOf(l1.val);
+            l1 = l1.next;
+        }
+        while (l2 != null) {
+            l2AsString = l2AsString + String.valueOf(l2.val);
+            l2 = l2.next;
+        }
+        l = (l1AsString.length() > l2AsString.length()) ? l1AsString.length() : l2AsString.length();
+        for (int i = 0; i < l; i++) {
+            int l1digit = (i > l1AsString.length() - 1) ? 0 : Integer.parseInt("" + l1AsString.charAt(i));
+            int l2digit = (i > l2AsString.length() - 1) ? 0 : Integer.parseInt("" + l2AsString.charAt(i));
+            int digit = l1digit + l2digit + carry;
+            carry = 0;
+            if (digit >= 10) {
+                carry = 1;
+                digit = digit - 10;
+            }
+            if (l3 == null) {
+                l3 = new ListNode(digit);
+                current = l3;
+            } else {
+                current.next = new ListNode(digit);
+                current = current.next;
+            }
+        }
+        if (carry == 1) current.next = new ListNode(1);
+        return l3;
+
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
